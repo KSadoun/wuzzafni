@@ -25,10 +25,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'role' => fake()->randomElement(['admin', 'employer', 'candidate']),
+            'avatar' => null,
             'remember_token' => Str::random(10),
             /* @chisel-2fa */
             'two_factor_secret' => null,
@@ -36,6 +39,27 @@ class UserFactory extends Factory
             'two_factor_confirmed_at' => null,
             /* @end-chisel-2fa */
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => [
+            'role' => 'admin',
+        ]);
+    }
+
+    public function employer(): static
+    {
+        return $this->state(fn () => [
+            'role' => 'employer',
+        ]);
+    }
+
+    public function candidate(): static
+    {
+        return $this->state(fn () => [
+            'role' => 'candidate',
+        ]);
     }
 
     /**
