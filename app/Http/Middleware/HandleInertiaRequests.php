@@ -39,7 +39,19 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $request->user(),
+                'user' => function () use ($request) {
+                    $user = $request->user();
+                    if ($user) {
+                        if ($user->role === 'candidate') {
+                            $user->load('candidateProfile');
+                        } elseif ($user->role === 'employer') {
+                            $user->load('employerProfile');
+                        } elseif ($user->role === 'admin') {
+                            $user->load('adminProfile');
+                        }
+                    }
+                    return $user;
+                },
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];

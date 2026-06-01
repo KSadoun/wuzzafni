@@ -30,13 +30,44 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $validated = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        \Illuminate\Support\Facades\DB::transaction(function () use ($user, $validated) {
+            $user->fill([
+                'first_name' => $validated['first_name'],
+                'last_name' => $validated['last_name'],
+                'email' => $validated['email'],
+            ]);
 
-        $request->user()->save();
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
+            }
+
+            $user->save();
+
+            if ($user->role === 'candidate') {
+                $user->candidateProfile()->update([
+                    'phone' => $validated['phone'] ?? null,
+                    'linkedin_url' => $validated['linkedin_url'] ?? null,
+                    'github_url' => $validated['github_url'] ?? null,
+                    'bio' => $validated['bio'] ?? null,
+                    'experience_level' => $validated['experience_level'] ?? null,
+                    'years_of_experience' => $validated['years_of_experience'] ?? null,
+                    'current_position' => $validated['current_position'] ?? null,
+                    'location' => $validated['location'] ?? null,
+                ]);
+            } elseif ($user->role === 'employer') {
+                $user->employerProfile()->update([
+                    'company_name' => $validated['company_name'],
+                    'company_description' => $validated['company_description'] ?? null,
+                    'company_website' => $validated['company_website'] ?? null,
+                    'field' => $validated['field'] ?? null,
+                    'company_size' => $validated['company_size'] ?? null,
+                    'location' => $validated['location'] ?? null,
+                ]);
+            }
+        });
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
 
