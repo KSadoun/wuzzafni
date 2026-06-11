@@ -26,6 +26,7 @@ export const useJobsStore = defineStore('jobs', () => {
     async function fetchJobs() {
         isLoading.value = true;
         error.value = null;
+
         try {
             // Sync filters with browser URL query parameters without reloading
             if (typeof window !== 'undefined') {
@@ -58,11 +59,13 @@ export const useJobsStore = defineStore('jobs', () => {
     async function fetchJobDetails(id: string | number) {
         isLoading.value = true;
         error.value = null;
+
         try {
             const response = await jobService.getJob(id);
             currentJob.value = response.data;
         } catch (err: any) {
             error.value = err.message || 'Failed to fetch job details.';
+
             throw err;
         } finally {
             isLoading.value = false;

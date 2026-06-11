@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search, Briefcase, FileText, User } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, Menu, Search, Briefcase, FileText, User, PlusCircle } from 'lucide-vue-next';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
@@ -55,28 +55,58 @@ const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
 const activeItemStyles =
     'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
+const homeHref = computed(() => {
+    return auth.value.user?.role === 'employer' ? '/employer/jobs' : dashboard();
+});
+
+const mainNavItems = computed<NavItem[]>(() => {
+    const role = auth.value.user?.role;
+    const items: NavItem[] = [];
+
+    if (role !== 'employer') {
+        items.push({
+            title: 'Dashboard',
+            href: dashboard(),
+            icon: LayoutGrid,
+        });
+    }
+
+    items.push({
         title: 'Jobs Board',
         href: jobs.index(),
         icon: Briefcase,
-    },
-    {
-        title: 'My Profile',
-        href: candidate.profile(),
-        icon: User,
-    },
-    {
-        title: 'My Applications',
-        href: candidate.applications(),
-        icon: FileText,
-    },
-];
+    });
+
+    if (role === 'employer') {
+        items.push(
+            {
+                title: 'My Job Posts',
+                href: '/employer/jobs',
+                icon: FileText,
+            },
+            {
+                title: 'Post a Job',
+                href: '/employer/jobs/create',
+                icon: PlusCircle,
+            }
+        );
+    } else {
+        items.push(
+            {
+                title: 'My Profile',
+                href: '/settings/profile',
+                icon: User,
+            },
+            {
+                title: 'My Applications',
+                href: candidate.applications(),
+                icon: FileText,
+            }
+        );
+    }
+
+    return items;
+});
 
 const rightNavItems: NavItem[] = [
     {
@@ -163,7 +193,7 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="dashboard()" class="flex items-center gap-x-2">
+                <Link :href="homeHref" class="flex items-center gap-x-2">
                     <AppLogo />
                 </Link>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Briefcase, Building, MapPin, DollarSign, Calendar, Clock } from 'lucide-vue-next';
+import { Briefcase, Building, DollarSign, Calendar } from 'lucide-vue-next';
 
 defineProps<{
     application: Record<string, any>;

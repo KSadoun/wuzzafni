@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { onMounted, computed, ref } from 'vue';
+import { ArrowLeft, Loader2, AlertCircle } from 'lucide-vue-next';
 import { useJobsStore } from '@/stores/jobsStore';
 import { useApplicationsStore } from '@/stores/applicationsStore';
-import { onMounted, computed, ref } from 'vue';
 import JobDetails from '@/components/candidate/JobDetails.vue';
 import ApplyModal from '@/components/candidate/ApplyModal.vue';
-import { ArrowLeft, Loader2, AlertCircle } from 'lucide-vue-next';
+
+const page = usePage();
+const currentUser = computed<any>(() => page.props.auth.user);
+const isEmployer = computed(() => currentUser.value?.role === 'employer');
 
 const props = defineProps<{
     jobId: number | string;
@@ -23,12 +27,18 @@ onMounted(() => {
 const job = computed(() => jobsStore.currentJob);
 
 const hasApplied = computed(() => {
-    if (job.value?.has_applied) return true;
+    if (job.value?.has_applied) {
+return true;
+}
+
     return applicationsStore.applications.some(app => app.job_id == props.jobId);
 });
 
 const hasPassedDeadline = computed(() => {
-    if (!job.value?.application_deadline) return false;
+    if (!job.value?.application_deadline) {
+return false;
+}
+
     return new Date(job.value.application_deadline) < new Date();
 });
 
@@ -77,7 +87,10 @@ async function handleApply(formData: FormData | { use_existing_resume: boolean; 
                 </div>
                 
                 <div>
-                    <button v-if="hasApplied" disabled class="px-6 py-2.5 bg-gray-100 text-gray-500 font-medium rounded-lg border border-gray-200 cursor-not-allowed">
+                    <button v-if="isEmployer" disabled class="px-6 py-2.5 bg-gray-50 text-gray-400 dark:bg-neutral-850 dark:text-neutral-500 font-semibold rounded-lg border border-gray-200 dark:border-neutral-850 cursor-not-allowed text-sm">
+                        Employers Cannot Apply
+                    </button>
+                    <button v-else-if="hasApplied" disabled class="px-6 py-2.5 bg-gray-100 text-gray-500 font-medium rounded-lg border border-gray-200 cursor-not-allowed">
                         Already Applied
                     </button>
                     <button v-else-if="isClosed" disabled class="px-6 py-2.5 bg-gray-100 text-gray-500 font-medium rounded-lg border border-gray-200 cursor-not-allowed">

@@ -12,7 +12,7 @@ import {
 } from 'reka-ui';
 import { X, UploadCloud } from 'lucide-vue-next';
 
-const props = defineProps<{
+defineProps<{
     jobId: number | string;
 }>();
 
@@ -29,6 +29,7 @@ const coverLetter = ref('');
 
 function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;
+
     if (target.files && target.files[0]) {
         selectedFile.value = target.files[0];
         useProfileResume.value = false;
@@ -41,9 +42,18 @@ function submitApplication() {
         const formData = new FormData();
         formData.append('resume', selectedFile.value);
         formData.append('use_existing_resume', '0');
-        if (email.value) formData.append('email', email.value);
-        if (phone.value) formData.append('phone', phone.value);
-        if (coverLetter.value) formData.append('cover_letter', coverLetter.value);
+
+        if (email.value) {
+formData.append('email', email.value);
+}
+
+        if (phone.value) {
+formData.append('phone', phone.value);
+}
+
+        if (coverLetter.value) {
+formData.append('cover_letter', coverLetter.value);
+}
         
         emit('apply', formData);
     } else {

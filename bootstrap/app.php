@@ -1,5 +1,26 @@
 <?php
 
+if (!class_exists('RequestParseBodyException')) {
+    class RequestParseBodyException extends \Exception {}
+}
+
+if (!function_exists('request_parse_body')) {
+    function request_parse_body(?array $options = null): array {
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? $_SERVER['HTTP_CONTENT_TYPE'] ?? '';
+        
+        if (preg_match('/^[a-zA-Z0-9\-]+\/[a-zA-Z0-9\-]+/', $contentType, $matches)) {
+            $mimeType = strtolower($matches[0]);
+            if ($mimeType === 'application/x-www-form-urlencoded') {
+                parse_str(file_get_contents('php://input'), $post);
+                return [$post, []];
+            }
+        }
+        
+        return [$_POST, $_FILES];
+    }
+}
+
+
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -18,6 +39,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
+
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->web(append: [

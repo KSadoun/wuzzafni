@@ -16,6 +16,7 @@ export const jobService = {
         });
         const qs = urlParams.toString();
         const endpoint = qs ? `/jobs?${qs}` : '/jobs';
+
         return fetchApi(endpoint, { method: 'GET' });
     },
 
