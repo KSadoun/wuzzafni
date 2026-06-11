@@ -39,6 +39,38 @@ class ApplicationController extends Controller
     }
 
     /**
+     * Candidate dashboard summary.
+     */
+    public function dashboard(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        if ($user->role !== 'candidate' || ! $user->candidateProfile) {
+            return response()->json(['message' => 'Unauthorized or missing candidate profile.'], 403);
+        }
+
+        $profileId = $user->candidateProfile->id;
+        $baseQuery = Application::where('candidate_profile_id', $profileId);
+
+        $recent = Application::with(['job.employerProfile'])
+            ->where('candidate_profile_id', $profileId)
+            ->latest('applied_at')
+            ->take(5)
+            ->get();
+
+        return response()->json([
+            'stats' => [
+                'total' => (clone $baseQuery)->count(),
+                'pending' => (clone $baseQuery)->where('status', 'pending')->count(),
+                'reviewed' => (clone $baseQuery)->where('status', 'reviewed')->count(),
+                'accepted' => (clone $baseQuery)->where('status', 'accepted')->count(),
+                'rejected' => (clone $baseQuery)->where('status', 'rejected')->count(),
+            ],
+            'recent_applications' => ApplicationResource::collection($recent),
+        ]);
+    }
+
+    /**
      * Display a paginated listing of applications for the candidate.
      * Response: { data: Application[], meta: {} }
      */

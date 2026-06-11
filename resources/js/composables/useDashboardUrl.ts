@@ -19,7 +19,7 @@ export function useDashboardUrl() {
         }
 
         if (role === 'candidate') {
-            return candidate.applications();
+            return dashboard();
         }
 
         return dashboard();

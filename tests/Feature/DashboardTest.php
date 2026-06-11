@@ -22,7 +22,7 @@ class DashboardTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get(route('dashboard'));
-        $response->assertRedirect('/candidate/applications');
+        $response->assertOk();
     }
 
     public function test_employers_visiting_dashboard_are_redirected_to_employer_area()

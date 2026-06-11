@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { BookOpen, FolderGit2, LayoutGrid, Briefcase, FileText, PlusCircle } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
@@ -17,17 +16,14 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useDashboardUrl } from '@/composables/useDashboardUrl';
-import { toUrl } from '@/lib/utils';
+import { dashboard } from '@/routes';
 import candidate from '@/routes/candidate';
 import jobs from '@/routes/jobs';
 import type { NavItem } from '@/types';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
-
-const homeHref = computed(() => {
-    return user.value?.role === 'employer' ? '/employer/jobs' : dashboard();
-});
+const dashboardUrl = useDashboardUrl();
 
 const mainNavItems = computed<NavItem[]>(() => {
     const role = user.value?.role;
@@ -58,7 +54,7 @@ const mainNavItems = computed<NavItem[]>(() => {
                 title: 'Post a Job',
                 href: '/employer/jobs/create',
                 icon: PlusCircle,
-            }
+            },
         );
     } else {
         items.push({
@@ -91,7 +87,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="homeHref">
+                        <Link :href="dashboardUrl">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>

@@ -82,7 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return match ($this->role) {
             'employer' => '/employer/jobs',
-            'candidate' => '/candidate/applications',
+            'candidate' => '/dashboard',
             default => '/dashboard',
         };
     }

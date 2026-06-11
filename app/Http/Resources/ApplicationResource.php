@@ -20,6 +20,12 @@ class ApplicationResource extends JsonResource
             'job' => [
                 'id' => $this->job->id ?? null,
                 'title' => $this->job->title ?? null,
+                'employerProfile' => $this->when(
+                    $this->relationLoaded('job') && $this->job?->relationLoaded('employerProfile'),
+                    fn () => [
+                        'company_name' => $this->job->employerProfile->company_name ?? null,
+                    ]
+                ),
             ],
             'resume_url' => $this->resume ? Storage::url($this->resume) : null,
             'cover_letter' => $this->cover_letter,

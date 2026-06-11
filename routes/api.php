@@ -28,6 +28,7 @@ Route::middleware('auth:web')->group(function () {
 
     // Applications
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store']);
+    Route::get('/candidate/dashboard', [ApplicationController::class, 'dashboard']);
     Route::get('/candidate/applications', [ApplicationController::class, 'index']);
     Route::get('/candidate/applications/{application}', [ApplicationController::class, 'show']);
     Route::post('/candidate/applications/{application}/cancel', [ApplicationController::class, 'cancel']);

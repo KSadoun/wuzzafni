@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { Loader2, LayoutList, BriefcaseBusiness } from 'lucide-vue-next';
 import { onMounted } from 'vue';
 import { Loader2, LayoutList, BriefcaseBusiness } from 'lucide-vue-next';
-import { useApplicationsStore } from '@/stores/applicationsStore';
 import ApplicationCard from '@/components/candidate/ApplicationCard.vue';
 import Pagination from '@/components/candidate/Pagination.vue';
 import { useApplicationsStore } from '@/stores/applicationsStore';

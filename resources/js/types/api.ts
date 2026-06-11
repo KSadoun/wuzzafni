@@ -63,6 +63,17 @@ export interface Job {
     has_applied: boolean; // Computed by backend if the user is authenticated
 }
 
+export interface CandidateDashboard {
+    stats: {
+        total: number;
+        pending: number;
+        reviewed: number;
+        accepted: number;
+        rejected: number;
+    };
+    recent_applications: Application[];
+}
+
 export interface Application {
     id: number;
     job_id: number;

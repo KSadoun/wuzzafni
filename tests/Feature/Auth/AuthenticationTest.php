@@ -29,7 +29,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect('/candidate/applications');
+        $response->assertRedirect('/dashboard');
     }
 
     public function test_employers_are_redirected_to_employer_dashboard_after_login()
