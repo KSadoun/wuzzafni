@@ -25,9 +25,7 @@ class SecurityTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            /* @chisel-password-confirmation */
             ->withSession(['auth.password_confirmed_at' => time()])
-            /* @end-chisel-password-confirmation */
             ->get(route('security.edit'))
             ->assertInertia(fn (Assert $page) => $page
                 ->component('settings/Security')
@@ -36,7 +34,6 @@ class SecurityTest extends TestCase
             );
     }
 
-    /* @chisel-password-confirmation */
     public function test_security_page_requires_password_confirmation_when_enabled()
     {
         $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
@@ -53,7 +50,6 @@ class SecurityTest extends TestCase
 
         $response->assertRedirect(route('password.confirm'));
     }
-    /* @end-chisel-password-confirmation */
 
     public function test_security_page_renders_without_two_factor_when_feature_is_disabled()
     {
@@ -64,9 +60,7 @@ class SecurityTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            /* @chisel-password-confirmation */
             ->withSession(['auth.password_confirmed_at' => time()])
-            /* @end-chisel-password-confirmation */
             ->get(route('security.edit'))
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page

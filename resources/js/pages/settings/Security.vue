@@ -3,18 +3,16 @@ import { Form, Head } from '@inertiajs/vue3';
 import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
+import type { Props as ManageTwoFactorProps } from '@/components/ManageTwoFactor.vue';
+import ManageTwoFactor from '@/components/ManageTwoFactor.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/security';
-/* @chisel-2fa */
-import type { Props as ManageTwoFactorProps } from '@/components/ManageTwoFactor.vue';
-import ManageTwoFactor from '@/components/ManageTwoFactor.vue';
-/* @end-chisel-2fa */
 
 type Props = {
     passwordRules: string;
-} /* @chisel-2fa */ & ManageTwoFactorProps /* @end-chisel-2fa */;
+} & ManageTwoFactorProps;
 
 const props = defineProps<Props>();
 
@@ -105,11 +103,9 @@ defineOptions({
         </Form>
     </div>
 
-    <!-- @chisel-2fa -->
     <ManageTwoFactor
         :canManageTwoFactor="canManageTwoFactor"
         :requiresConfirmation="requiresConfirmation"
         :twoFactorEnabled="twoFactorEnabled"
     />
-    <!-- @end-chisel-2fa -->
 </template>

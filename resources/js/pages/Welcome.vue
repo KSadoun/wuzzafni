@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { dashboard, login } from '@/routes';
-/* @chisel-registration */
+import { login } from '@/routes';
 import { register } from '@/routes';
-/* @end-chisel-registration */
+import { useDashboardUrl } from '@/composables/useDashboardUrl';
+
+const dashboardUrl = useDashboardUrl();
 </script>
 
 <template>
@@ -20,7 +21,7 @@ import { register } from '@/routes';
             <nav class="flex items-center justify-end gap-4">
                 <Link
                     v-if="$page.props.auth.user"
-                    :href="dashboard()"
+                    :href="dashboardUrl"
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
                     Dashboard
@@ -32,14 +33,12 @@ import { register } from '@/routes';
                     >
                         Log in
                     </Link>
-                    <!-- @chisel-registration -->
                     <Link
                         :href="register()"
                         class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                     >
                         Register
                     </Link>
-                    <!-- @end-chisel-registration -->
                 </template>
             </nav>
         </header>

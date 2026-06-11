@@ -4,16 +4,13 @@ namespace App\Services;
 
 use App\Models\CandidateProfile;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class CandidateProfileService
 {
     /**
      * Get or create the candidate profile for the user.
-     *
-     * @param User $user
-     * @return CandidateProfile
      */
     public function getProfile(User $user): CandidateProfile
     {
@@ -24,10 +21,6 @@ class CandidateProfileService
 
     /**
      * Update the candidate profile.
-     *
-     * @param User $user
-     * @param array $data
-     * @return CandidateProfile
      */
     public function updateProfile(User $user, array $data): CandidateProfile
     {

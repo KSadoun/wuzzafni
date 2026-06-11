@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { useJobsStore } from '@/stores/jobsStore';
-import { useApplicationsStore } from '@/stores/applicationsStore';
-import { onMounted, computed, ref } from 'vue';
-import JobDetails from '@/components/candidate/JobDetails.vue';
-import ApplyModal from '@/components/candidate/ApplyModal.vue';
 import { ArrowLeft, Loader2, AlertCircle } from 'lucide-vue-next';
+import { onMounted, computed, ref } from 'vue';
+import ApplyModal from '@/components/candidate/ApplyModal.vue';
+import JobDetails from '@/components/candidate/JobDetails.vue';
+import { useApplicationsStore } from '@/stores/applicationsStore';
+import { useJobsStore } from '@/stores/jobsStore';
 
 const props = defineProps<{
     jobId: number | string;
@@ -23,12 +23,18 @@ onMounted(() => {
 const job = computed(() => jobsStore.currentJob);
 
 const hasApplied = computed(() => {
-    if (job.value?.has_applied) return true;
+    if (job.value?.has_applied) {
+return true;
+}
+
     return applicationsStore.applications.some(app => app.job_id == props.jobId);
 });
 
 const hasPassedDeadline = computed(() => {
-    if (!job.value?.application_deadline) return false;
+    if (!job.value?.application_deadline) {
+return false;
+}
+
     return new Date(job.value.application_deadline) < new Date();
 });
 

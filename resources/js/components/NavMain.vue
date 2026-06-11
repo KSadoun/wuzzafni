@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -7,14 +6,26 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import SidebarNavLink from '@/components/SidebarNavLink.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
+import { toUrl } from '@/lib/utils';
 import type { NavItem } from '@/types';
 
 defineProps<{
     items: NavItem[];
 }>();
 
-const { isCurrentUrl } = useCurrentUrl();
+const { isCurrentUrl, isCurrentOrParentUrl } = useCurrentUrl();
+
+function isItemActive(item: NavItem): boolean {
+    const path = toUrl(item.href);
+
+    if (path.startsWith('/employer')) {
+        return isCurrentOrParentUrl(item.href);
+    }
+
+    return isCurrentUrl(item.href);
+}
 </script>
 
 <template>
@@ -24,13 +35,10 @@ const { isCurrentUrl } = useCurrentUrl();
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton
                     as-child
-                    :is-active="isCurrentUrl(item.href)"
+                    :is-active="isItemActive(item)"
                     :tooltip="item.title"
                 >
-                    <Link :href="item.href">
-                        <component :is="item.icon" />
-                        <span>{{ item.title }}</span>
-                    </Link>
+                    <SidebarNavLink :item="item" />
                 </SidebarMenuButton>
             </SidebarMenuItem>
         </SidebarMenu>

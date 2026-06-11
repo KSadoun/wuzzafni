@@ -1,12 +1,14 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createApp, h, type DefineComponent } from 'vue';
 import { createPinia } from 'pinia';
+import { createApp, h  } from 'vue';
+import type {DefineComponent} from 'vue';
 import { initializeTheme } from '@/composables/useAppearance';
 import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
+import router from '@/router';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -33,6 +35,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(createPinia())
+            .use(router)
             .mount(el);
     },
     progress: {

@@ -71,3 +71,46 @@ export interface Application {
     applied_at: string;
     created_at: string;
 }
+
+export interface EmployerApplication {
+    id: number;
+    job_id: number;
+    job: {
+        id: number;
+        title: string;
+        experience_level?: string;
+    };
+    candidate: {
+        name?: string;
+        email?: string;
+        phone?: string;
+        experience_level?: string;
+        current_position?: string;
+    };
+    resume_url?: string | null;
+    cover_letter?: string;
+    status: string;
+    applied_at: string;
+    payment?: PaymentDetails;
+}
+
+export interface PaymentDetails {
+    id: number;
+    amount: number | string;
+    payment_status: string;
+    payment_method: string;
+    transaction_id?: string | null;
+}
+
+export interface JobAnalytics {
+    job: {
+        id: number;
+        title: string;
+    };
+    total_applications: number;
+    applications_per_day: number;
+    pending: number;
+    reviewed: number;
+    accepted: number;
+    rejected: number;
+}

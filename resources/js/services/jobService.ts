@@ -1,5 +1,5 @@
-import { fetchApi } from '@/utils/fetchApi';
 import type { Job, PaginatedResponse } from '@/types/api';
+import { fetchApi } from '@/utils/fetchApi';
 
 export const jobService = {
     async getJobs(params: Record<string, any> = {}): Promise<PaginatedResponse<Job>> {
@@ -16,6 +16,7 @@ export const jobService = {
         });
         const qs = urlParams.toString();
         const endpoint = qs ? `/jobs?${qs}` : '/jobs';
+
         return fetchApi(endpoint, { method: 'GET' });
     },
 

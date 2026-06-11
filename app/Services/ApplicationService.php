@@ -7,7 +7,6 @@ use App\Models\Job;
 use App\Models\User;
 use App\Notifications\NewApplicationNotification;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class ApplicationService
@@ -19,7 +18,7 @@ class ApplicationService
     {
         $candidateProfile = $candidateUser->candidateProfile;
 
-        if (!$candidateProfile) {
+        if (! $candidateProfile) {
             throw ValidationException::withMessages([
                 'profile' => ['Candidate profile is required before applying.'],
             ]);
@@ -47,7 +46,7 @@ class ApplicationService
 
         if (isset($data['resume']) && $data['resume'] instanceof UploadedFile) {
             $resumePath = $data['resume']->store('resumes/applications', 'public');
-        } elseif (!empty($data['use_existing_resume']) && $candidateProfile->resume) {
+        } elseif (! empty($data['use_existing_resume']) && $candidateProfile->resume) {
             $resumePath = $candidateProfile->resume;
         } else {
             throw ValidationException::withMessages([

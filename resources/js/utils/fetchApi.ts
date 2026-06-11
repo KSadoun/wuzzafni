@@ -3,6 +3,7 @@ import { AppApiError } from '@/types/api';
 function getCsrfToken(): string {
     // Read the XSRF-TOKEN cookie that Laravel sets automatically
     const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
+
     return match ? decodeURIComponent(match[1]) : '';
 }
 
@@ -17,6 +18,7 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
     // Include CSRF token for state-mutating requests
     if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
         const csrfToken = getCsrfToken();
+
         if (csrfToken) {
             defaultHeaders['X-XSRF-TOKEN'] = csrfToken;
         }
@@ -39,6 +41,7 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
     if (!response.ok) {
         const text = await response.text();
         let errorData;
+
         try {
             errorData = JSON.parse(text);
         } catch (e) {
@@ -67,7 +70,9 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
         throw new AppApiError(message, response.status, errorData.errors);
     }
 
-    if (response.status === 204) return null;
+    if (response.status === 204) {
+return null;
+}
     
     return response.json();
 }

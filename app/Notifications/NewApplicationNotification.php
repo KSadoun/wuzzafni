@@ -5,9 +5,7 @@ namespace App\Notifications;
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-
 use Illuminate\Queue\SerializesModels;
 
 class NewApplicationNotification extends Notification implements ShouldQueue
@@ -46,8 +44,8 @@ class NewApplicationNotification extends Notification implements ShouldQueue
             'job_id' => $this->application->job_id,
             'job_title' => $this->application->job->title,
             'candidate_id' => $this->application->candidateProfile->id,
-            'candidate_name' => $this->application->candidateProfile->user->first_name . ' ' . $this->application->candidateProfile->user->last_name,
-            'message' => 'A new candidate has applied for your job: ' . $this->application->job->title,
+            'candidate_name' => $this->application->candidateProfile->user->first_name.' '.$this->application->candidateProfile->user->last_name,
+            'message' => 'A new candidate has applied for your job: '.$this->application->job->title,
         ];
     }
 }

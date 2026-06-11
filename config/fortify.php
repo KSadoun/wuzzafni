@@ -116,9 +116,7 @@ return [
 
     'limiters' => [
         'login' => 'login',
-        /* @chisel-2fa */
         'two-factor' => 'two-factor',
-        /* @end-chisel-2fa */
     ],
 
     /*
@@ -146,20 +144,14 @@ return [
     */
 
     'features' => [
-        /* @chisel-registration */
         Features::registration(),
-        /* @end-chisel-registration */
         Features::resetPasswords(),
-        /* @chisel-email-verification */
         Features::emailVerification(),
-        /* @end-chisel-email-verification */
-        /* @chisel-2fa */
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,
             // 'window' => 0
         ]),
-        /* @end-chisel-2fa */
     ],
 
 ];

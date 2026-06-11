@@ -24,7 +24,7 @@ class CandidateProfileController extends Controller
     public function show(Request $request): JsonResponse
     {
         $user = $request->user();
-        
+
         if ($user->role !== 'candidate') {
             return response()->json(['message' => 'Unauthorized. Must be a candidate.'], 403);
         }
@@ -34,7 +34,7 @@ class CandidateProfileController extends Controller
 
         return response()->json([
             'message' => 'Profile retrieved successfully',
-            'data' => new CandidateProfileResource($profile)
+            'data' => new CandidateProfileResource($profile),
         ]);
     }
 
@@ -51,7 +51,7 @@ class CandidateProfileController extends Controller
 
         return response()->json([
             'message' => 'Profile updated successfully',
-            'data' => new CandidateProfileResource($profile)
+            'data' => new CandidateProfileResource($profile),
         ]);
     }
 }

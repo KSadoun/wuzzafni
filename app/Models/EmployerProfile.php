@@ -17,7 +17,7 @@ class EmployerProfile extends Model
         'company_website',
         'field',
         'company_size',
-        'location'
+        'location',
     ];
 
     // Relationships

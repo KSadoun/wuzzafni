@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 const props = defineProps<{
     pagination: {
@@ -31,21 +31,30 @@ const pages = computed(() => {
     const pages: (number | '...')[] = [];
 
     if (last <= 7) {
-        for (let i = 1; i <= last; i++) pages.push(i);
+        for (let i = 1; i <= last; i++) {
+pages.push(i);
+}
+
         return pages;
     }
 
     // Always include first page
     pages.push(1);
 
-    if (current > 4) pages.push('...');
+    if (current > 4) {
+pages.push('...');
+}
 
     const start = Math.max(2, current - 2);
     const end = Math.min(last - 1, current + 2);
 
-    for (let i = start; i <= end; i++) pages.push(i);
+    for (let i = start; i <= end; i++) {
+pages.push(i);
+}
 
-    if (current < last - 3) pages.push('...');
+    if (current < last - 3) {
+pages.push('...');
+}
 
     // Always include last page
     pages.push(last);
@@ -54,8 +63,14 @@ const pages = computed(() => {
 });
 
 function goToPage(page: number | '...') {
-    if (typeof page !== 'number') return;
-    if (page < 1 || page > lastPage.value || page === currentPage.value) return;
+    if (typeof page !== 'number') {
+return;
+}
+
+    if (page < 1 || page > lastPage.value || page === currentPage.value) {
+return;
+}
+
     emit('page-changed', page);
 }
 </script>

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,7 +34,7 @@ class ProfileController extends Controller
         $user = $request->user();
         $validated = $request->validated();
 
-        \Illuminate\Support\Facades\DB::transaction(function () use ($user, $validated) {
+        DB::transaction(function () use ($user, $validated) {
             $user->fill([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],

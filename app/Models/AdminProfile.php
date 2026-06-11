@@ -11,11 +11,11 @@ class AdminProfile extends Model
 
     protected $fillable = [
         'user_id',
-        'permissions'
+        'permissions',
     ];
 
     protected $casts = [
-        'permissions' => 'array' // if permissions is stored as JSON
+        'permissions' => 'array', // if permissions is stored as JSON
     ];
 
     // Relationships

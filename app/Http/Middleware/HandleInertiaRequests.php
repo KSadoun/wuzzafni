@@ -50,12 +50,14 @@ class HandleInertiaRequests extends Middleware
                             $user->load('adminProfile');
                         }
                         // Add computed 'name' for components that expect it
-                        $user->name = trim($user->first_name . ' ' . $user->last_name);
+                        $user->name = trim($user->first_name.' '.$user->last_name);
                     }
+
                     return $user;
                 },
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'dashboardUrl' => fn () => $request->user()?->dashboardPath(),
         ];
     }
 }

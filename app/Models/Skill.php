@@ -11,7 +11,7 @@ class Skill extends Model
 
     protected $fillable = [
         'candidate_profile_id',
-        'skill_name'
+        'skill_name',
     ];
 
     // Relationships

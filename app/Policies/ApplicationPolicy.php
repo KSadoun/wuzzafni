@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Application;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ApplicationPolicy
 {
@@ -34,5 +33,13 @@ class ApplicationPolicy
             && $user->candidateProfile 
             && $user->candidateProfile->id === $application->candidate_profile_id 
             && $application->status === 'pending';
+    }
+
+    public function accept(User $user, Application $application): bool
+    {
+        return $user->role === 'employer'
+            && $user->employerProfile
+            && $user->employerProfile->id === $application->employer_profile_id
+            && in_array($application->status, ['pending', 'reviewed']);
     }
 }

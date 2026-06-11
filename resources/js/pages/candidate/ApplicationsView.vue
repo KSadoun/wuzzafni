@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { useApplicationsStore } from '@/stores/applicationsStore';
+import { Loader2, LayoutList, BriefcaseBusiness } from 'lucide-vue-next';
 import { onMounted } from 'vue';
 import ApplicationCard from '@/components/candidate/ApplicationCard.vue';
 import Pagination from '@/components/candidate/Pagination.vue';
-import { Loader2, LayoutList, BriefcaseBusiness } from 'lucide-vue-next';
+import { useApplicationsStore } from '@/stores/applicationsStore';
 
 const applicationsStore = useApplicationsStore();
 

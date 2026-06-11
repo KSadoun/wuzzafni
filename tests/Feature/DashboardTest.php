@@ -18,10 +18,19 @@ class DashboardTest extends TestCase
 
     public function test_authenticated_users_can_visit_the_dashboard()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->candidate()->create();
         $this->actingAs($user);
 
         $response = $this->get(route('dashboard'));
-        $response->assertOk();
+        $response->assertRedirect('/candidate/applications');
+    }
+
+    public function test_employers_visiting_dashboard_are_redirected_to_employer_area()
+    {
+        $user = User::factory()->employer()->create();
+        $this->actingAs($user);
+
+        $response = $this->get(route('dashboard'));
+        $response->assertRedirect('/employer/jobs');
     }
 }
