@@ -18,11 +18,11 @@ class Application extends Model
         'phone',
         'email',
         'status',
-        'applied_at'
+        'applied_at',
     ];
 
     protected $casts = [
-        'applied_at' => 'datetime'
+        'applied_at' => 'datetime',
     ];
 
     // Relationships

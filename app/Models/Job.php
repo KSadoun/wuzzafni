@@ -26,7 +26,7 @@ class Job extends Model
         'application_deadline',
         'status',
         'views_count',
-        'applications_count'
+        'applications_count',
     ];
 
     protected $casts = [
@@ -34,7 +34,7 @@ class Job extends Model
         'salary_max' => 'decimal:2',
         'application_deadline' => 'date',
         'views_count' => 'integer',
-        'applications_count' => 'integer'
+        'applications_count' => 'integer',
     ];
 
     // Relationships

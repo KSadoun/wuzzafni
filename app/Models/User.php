@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -26,7 +25,7 @@ class User extends Authenticatable implements PasskeyUser
         'email',
         'password',
         'role',
-        'avatar'
+        'avatar',
     ];
 
     /**
@@ -38,7 +37,7 @@ class User extends Authenticatable implements PasskeyUser
         'password',
         'two_factor_secret',
         'two_factor_recovery_codes',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
@@ -51,9 +50,7 @@ class User extends Authenticatable implements PasskeyUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            /* @chisel-2fa */
             'two_factor_confirmed_at' => 'datetime',
-            /* @end-chisel-2fa */
         ];
     }
 

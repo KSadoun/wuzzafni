@@ -16,9 +16,15 @@ return new class extends Migration
             $table->foreignId('employer_profile_id')->constrained()->onDelete('cascade');
             $table->foreignId('application_id')->nullable()->constrained()->onDelete('set null');
             $table->decimal('amount', 10, 2);
-            $table->string('payment_method');
+            $table->string('payment_id');
+            $table->string('payer_id');
+            $table->string('payer_email');
+            $table->decimal('amount', 10, 2);
+            $table->string('currency', 3);
             $table->string('payment_status')->default('pending');
-            $table->string('transaction_id')->nullable();
+
+            // $table->string('payment_method');
+            // $table->string('transaction_id')->nullable();
             $table->timestamps();
         });
     }
