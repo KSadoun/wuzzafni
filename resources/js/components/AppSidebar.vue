@@ -2,7 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
-import { BookOpen, FolderGit2, LayoutGrid, Briefcase, FileText } from 'lucide-vue-next';
+import { BookOpen, FolderGit2, LayoutGrid, Briefcase, FileText, PlusCircle } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -23,56 +23,52 @@ import jobs from '@/routes/jobs';
 import type { NavItem } from '@/types';
 
 const page = usePage();
-const userRole = computed(() => (page.props.auth as { user?: { role?: string } })?.user?.role);
-const dashboardUrl = useDashboardUrl();
+const user = computed(() => page.props.auth.user);
 
-const logoNavItem = computed<NavItem>(() => ({
-    title: 'Home',
-    href: dashboardUrl.value,
-}));
-
-const useLogoRouter = computed(
-    () => toUrl(logoNavItem.value.href).startsWith('/employer') && page.url.startsWith('/employer'),
-);
+const homeHref = computed(() => {
+    return user.value?.role === 'employer' ? '/employer/jobs' : dashboard();
+});
 
 const mainNavItems = computed<NavItem[]>(() => {
-    if (userRole.value === 'candidate') {
-        return [
+    const role = user.value?.role;
+    const items: NavItem[] = [];
+
+    if (role !== 'employer') {
+        items.push({
+            title: 'Dashboard',
+            href: dashboard(),
+            icon: LayoutGrid,
+        });
+    }
+
+    items.push({
+        title: 'Jobs Board',
+        href: jobs.index(),
+        icon: Briefcase,
+    });
+
+    if (role === 'employer') {
+        items.push(
             {
-                title: 'My Applications',
-                href: candidate.applications(),
+                title: 'My Job Posts',
+                href: '/employer/jobs',
                 icon: FileText,
             },
             {
-                title: 'Browse Jobs',
-                href: jobs.index(),
-                icon: Briefcase,
-            },
-        ];
+                title: 'Post a Job',
+                href: '/employer/jobs/create',
+                icon: PlusCircle,
+            }
+        );
+    } else {
+        items.push({
+            title: 'My Applications',
+            href: candidate.applications(),
+            icon: FileText,
+        });
     }
 
-    if (userRole.value === 'employer') {
-        return [
-            {
-                title: 'My Jobs',
-                href: '/employer/jobs',
-                icon: Briefcase,
-            },
-        ];
-    }
-
-    return [
-        {
-            title: 'Dashboard',
-            href: dashboardUrl.value,
-            icon: LayoutGrid,
-        },
-        {
-            title: 'Browse Jobs',
-            href: jobs.index(),
-            icon: Briefcase,
-        },
-    ];
+    return items;
 });
 
 const footerNavItems: NavItem[] = [
@@ -95,10 +91,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <RouterLink v-if="useLogoRouter" :to="toUrl(logoNavItem.href)" class="flex w-full items-center">
-                            <AppLogo />
-                        </RouterLink>
-                        <Link v-else :href="logoNavItem.href" class="flex w-full items-center">
+                        <Link :href="homeHref">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>

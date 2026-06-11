@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\EmployerApplicationController;
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\PayPalController;
+use App\Http\Controllers\Api\EmployerJobController;
 
 Route::get('/health', function (Request $request) {
     return response()->json([
@@ -31,14 +32,7 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/candidate/applications/{application}', [ApplicationController::class, 'show']);
     Route::post('/candidate/applications/{application}/cancel', [ApplicationController::class, 'cancel']);
 
-    // Employer
-    Route::prefix('employer')->group(function () {
-        Route::get('/jobs', [EmployerApplicationController::class, 'jobs']);
-        Route::get('/jobs/{job}/applications', [EmployerApplicationController::class, 'index']);
-        Route::post('/applications/{application}/accept', [EmployerApplicationController::class, 'accept']);
-        Route::get('/applications/{application}/payment', [EmployerApplicationController::class, 'showPayment']);
-    });
-
+  
     // Analytics
     Route::get('/jobs/{job}/analytics', [AnalyticsController::class, 'getJobAnalytics'])->name('analytics');
 
@@ -48,4 +42,16 @@ Route::middleware('auth:web')->group(function () {
         Route::get('success', 'success')->name('paypal.success');
         Route::get('cancel', 'cancel')->name('paypal.cancel');
     });
+  
+    // Employer Routes
+    Route::middleware('role:employer')->group(function () {
+        Route::get('/employer/jobs', [EmployerJobController::class, 'index']);
+        Route::post('/employer/jobs', [EmployerJobController::class, 'store']);
+        Route::get('/employer/jobs/{job}', [EmployerJobController::class, 'show']);
+        Route::put('/employer/jobs/{job}', [EmployerJobController::class, 'update']);
+        Route::delete('/employer/jobs/{job}', [EmployerJobController::class, 'destroy']);
+    });
+
+    // Metadata Routes
+    Route::get('/meta/job-options', [EmployerJobController::class, 'metaOptions']);
 });

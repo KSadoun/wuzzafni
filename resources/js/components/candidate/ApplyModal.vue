@@ -12,7 +12,7 @@ import {
 } from 'reka-ui';
 import { ref } from 'vue';
 
-const props = defineProps<{
+defineProps<{
     jobId: number | string;
 }>();
 

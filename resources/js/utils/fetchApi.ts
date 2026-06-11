@@ -44,7 +44,7 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
 
         try {
             errorData = JSON.parse(text);
-        } catch (e) {
+        } catch {
             console.error('API Error (not JSON):', text);
             errorData = { message: response.statusText || 'Server returned an invalid response format.' };
         }

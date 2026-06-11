@@ -34,6 +34,10 @@ class CreateNewUser implements CreatesNewUsers
                 'role' => $input['role'],
             ]);
 
+            if (config('app.env') === 'local') {
+                $user->markEmailAsVerified();
+            }
+
             if ($input['role'] === 'candidate') {
                 $user->candidateProfile()->create([]);
             } elseif ($input['role'] === 'employer') {

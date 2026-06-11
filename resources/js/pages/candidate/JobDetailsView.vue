@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import { ArrowLeft, Loader2, AlertCircle } from 'lucide-vue-next';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { onMounted, computed, ref } from 'vue';
-import ApplyModal from '@/components/candidate/ApplyModal.vue';
-import JobDetails from '@/components/candidate/JobDetails.vue';
-import { useApplicationsStore } from '@/stores/applicationsStore';
+import { ArrowLeft, Loader2, AlertCircle } from 'lucide-vue-next';
 import { useJobsStore } from '@/stores/jobsStore';
+import { useApplicationsStore } from '@/stores/applicationsStore';
+import JobDetails from '@/components/candidate/JobDetails.vue';
+import ApplyModal from '@/components/candidate/ApplyModal.vue';
+
+const page = usePage();
+const currentUser = computed<any>(() => page.props.auth.user);
+const isEmployer = computed(() => currentUser.value?.role === 'employer');
 
 const props = defineProps<{
     jobId: number | string;
@@ -83,7 +87,10 @@ async function handleApply(formData: FormData | { use_existing_resume: boolean; 
                 </div>
                 
                 <div>
-                    <button v-if="hasApplied" disabled class="px-6 py-2.5 bg-gray-100 text-gray-500 font-medium rounded-lg border border-gray-200 cursor-not-allowed">
+                    <button v-if="isEmployer" disabled class="px-6 py-2.5 bg-gray-50 text-gray-400 dark:bg-neutral-850 dark:text-neutral-500 font-semibold rounded-lg border border-gray-200 dark:border-neutral-850 cursor-not-allowed text-sm">
+                        Employers Cannot Apply
+                    </button>
+                    <button v-else-if="hasApplied" disabled class="px-6 py-2.5 bg-gray-100 text-gray-500 font-medium rounded-lg border border-gray-200 cursor-not-allowed">
                         Already Applied
                     </button>
                     <button v-else-if="isClosed" disabled class="px-6 py-2.5 bg-gray-100 text-gray-500 font-medium rounded-lg border border-gray-200 cursor-not-allowed">
