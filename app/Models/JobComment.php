@@ -12,7 +12,7 @@ class JobComment extends Model
     protected $fillable = [
         'job_id',
         'user_id',
-        'content'
+        'content',
     ];
 
     // Relationships

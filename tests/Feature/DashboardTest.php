@@ -22,7 +22,16 @@ class DashboardTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get(route('dashboard'));
-        $response->assertOk();
+        $response->assertRedirect('/candidate/applications');
+    }
+
+    public function test_employers_visiting_dashboard_are_redirected_to_employer_area()
+    {
+        $user = User::factory()->employer()->create();
+        $this->actingAs($user);
+
+        $response = $this->get(route('dashboard'));
+        $response->assertRedirect('/employer/jobs');
     }
 
     public function test_employer_visiting_dashboard_is_redirected_to_jobs()

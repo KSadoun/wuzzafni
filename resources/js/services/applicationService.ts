@@ -1,5 +1,5 @@
-import { fetchApi } from '@/utils/fetchApi';
 import type { Application, PaginatedResponse } from '@/types/api';
+import { fetchApi } from '@/utils/fetchApi';
 
 export const applicationService = {
     async apply(jobId: number | string, data: FormData | { use_existing_resume: boolean; cover_letter?: string; phone?: string }): Promise<{ message: string; application?: Application }> {

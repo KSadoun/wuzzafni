@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
@@ -24,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return \Illuminate\Support\Facades\DB::transaction(function () use ($input) {
+        return DB::transaction(function () use ($input) {
             $user = User::create([
                 'first_name' => $input['first_name'],
                 'last_name' => $input['last_name'],

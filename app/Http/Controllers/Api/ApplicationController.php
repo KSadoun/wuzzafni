@@ -34,7 +34,7 @@ class ApplicationController extends Controller
 
         return response()->json([
             'message' => 'Application submitted successfully',
-            'application' => new ApplicationResource($application)
+            'application' => new ApplicationResource($application),
         ], 201);
     }
 
@@ -46,7 +46,7 @@ class ApplicationController extends Controller
     {
         $user = $request->user();
 
-        if ($user->role !== 'candidate' || !$user->candidateProfile) {
+        if ($user->role !== 'candidate' || ! $user->candidateProfile) {
             return response()->json(['message' => 'Unauthorized or missing candidate profile.'], 403);
         }
 
@@ -75,7 +75,7 @@ class ApplicationController extends Controller
         $application->load('job.employerProfile');
 
         return response()->json([
-            'data' => new ApplicationResource($application)
+            'data' => new ApplicationResource($application),
         ]);
     }
 
@@ -94,8 +94,7 @@ class ApplicationController extends Controller
 
         return response()->json([
             'message' => 'Application cancelled successfully',
-            'application' => new ApplicationResource($application)
+            'application' => new ApplicationResource($application),
         ]);
     }
 }
-

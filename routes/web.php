@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use Inertia\Inertia;
 
 Route::inertia('/', 'Welcome')->name('home');
@@ -34,5 +33,3 @@ Route::get('jobs/{id}', function ($id) {
 })->name('jobs.show');
 
 require __DIR__.'/settings.php';
-
-

@@ -33,7 +33,7 @@ class JobController extends Controller
             'salary_max',
             'date_posted',
             'sort',
-            'per_page'
+            'per_page',
         ]);
 
         $jobs = $this->jobSearchService->search($filters);
@@ -65,4 +65,3 @@ class JobController extends Controller
         return response()->json(['data' => $data]);
     }
 }
-

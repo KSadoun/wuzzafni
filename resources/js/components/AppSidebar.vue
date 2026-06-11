@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
+import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { BookOpen, FolderGit2, LayoutGrid, Briefcase, FileText, PlusCircle } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
@@ -15,7 +16,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { useDashboardUrl } from '@/composables/useDashboardUrl';
+import { toUrl } from '@/lib/utils';
 import candidate from '@/routes/candidate';
 import jobs from '@/routes/jobs';
 import type { NavItem } from '@/types';

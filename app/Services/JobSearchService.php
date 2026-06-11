@@ -9,9 +9,6 @@ class JobSearchService
 {
     /**
      * Search and filter jobs.
-     *
-     * @param array $filters
-     * @return LengthAwarePaginator
      */
     public function search(array $filters): LengthAwarePaginator
     {
@@ -19,14 +16,14 @@ class JobSearchService
 
         // Only show active jobs that haven't passed the deadline
         $query->where('status', 'active')
-              ->where(function ($q) {
-                  $q->whereNull('application_deadline')
+            ->where(function ($q) {
+                $q->whereNull('application_deadline')
                     ->orWhere('application_deadline', '>=', now()->toDateString());
-              });
+            });
 
         // Keyword search (title or description)
         $query->when(isset($filters['keyword']), function ($q) use ($filters) {
-            $keyword = '%' . $filters['keyword'] . '%';
+            $keyword = '%'.$filters['keyword'].'%';
             $q->where(function ($sub) use ($keyword) {
                 $sub->where('title', 'like', $keyword)
                     ->orWhere('description', 'like', $keyword);
@@ -35,7 +32,7 @@ class JobSearchService
 
         // Location
         $query->when(isset($filters['location']), function ($q) use ($filters) {
-            $q->where('location', 'like', '%' . $filters['location'] . '%');
+            $q->where('location', 'like', '%'.$filters['location'].'%');
         });
 
         // Work Type

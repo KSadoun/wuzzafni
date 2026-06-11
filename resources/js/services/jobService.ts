@@ -1,5 +1,5 @@
-import { fetchApi } from '@/utils/fetchApi';
 import type { Job, PaginatedResponse } from '@/types/api';
+import { fetchApi } from '@/utils/fetchApi';
 
 export const jobService = {
     async getJobs(params: Record<string, any> = {}): Promise<PaginatedResponse<Job>> {

@@ -15,11 +15,11 @@ class Payment extends Model
         'amount',
         'payment_method',
         'payment_status',
-        'transaction_id'
+        'transaction_id',
     ];
 
     protected $casts = [
-        'amount' => 'decimal:2'
+        'amount' => 'decimal:2',
     ];
 
     // Relationships

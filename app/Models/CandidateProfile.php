@@ -19,7 +19,7 @@ class CandidateProfile extends Model
         'experience_level',
         'years_of_experience',
         'current_position',
-        'location'
+        'location',
     ];
 
     // Relationships

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { Loader2 } from 'lucide-vue-next';
 import { onMounted } from 'vue';
 import { Loader2 } from 'lucide-vue-next';
 import { useJobsStore } from '@/stores/jobsStore';
@@ -7,6 +8,7 @@ import JobCard from '@/components/candidate/JobCard.vue';
 import JobFilters from '@/components/candidate/JobFilters.vue';
 import JobSearchBar from '@/components/candidate/JobSearchBar.vue';
 import Pagination from '@/components/candidate/Pagination.vue';
+import { useJobsStore } from '@/stores/jobsStore';
 
 const jobsStore = useJobsStore();
 

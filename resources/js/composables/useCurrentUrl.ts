@@ -2,6 +2,7 @@ import type { InertiaLinkProps } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import type { ComputedRef, DeepReadonly } from 'vue';
 import { computed, readonly } from 'vue';
+import { useRoute } from 'vue-router';
 import { toUrl } from '@/lib/utils';
 
 export type UseCurrentUrlReturn = {
@@ -22,18 +23,23 @@ export type UseCurrentUrlReturn = {
     ) => T | F;
 };
 
-const page = usePage();
-const currentUrlReactive = computed(
-    () =>
-        new URL(
+export function useCurrentUrl(): UseCurrentUrlReturn {
+    const page = usePage();
+    const route = useRoute();
+
+    const currentUrlReactive = computed(() => {
+        if (page.url.startsWith('/employer')) {
+            return route.path;
+        }
+
+        return new URL(
             page.url,
             typeof window !== 'undefined'
                 ? window.location.origin
                 : 'http://localhost',
-        ).pathname,
-);
+        ).pathname;
+    });
 
-export function useCurrentUrl(): UseCurrentUrlReturn {
     function isCurrentUrl(
         urlToCheck: NonNullable<InertiaLinkProps['href']>,
         currentUrl?: string,

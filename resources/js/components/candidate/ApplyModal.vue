@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { X, UploadCloud } from 'lucide-vue-next';
 import {
   DialogRoot,
   DialogTrigger,
@@ -10,7 +10,7 @@ import {
   DialogDescription,
   DialogClose,
 } from 'reka-ui';
-import { X, UploadCloud } from 'lucide-vue-next';
+import { ref } from 'vue';
 
 defineProps<{
     jobId: number | string;
