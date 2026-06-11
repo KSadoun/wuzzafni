@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { useJobsStore } from '@/stores/jobsStore';
 import { onMounted } from 'vue';
+import { Loader2 } from 'lucide-vue-next';
+import { useJobsStore } from '@/stores/jobsStore';
 import JobCard from '@/components/candidate/JobCard.vue';
 import JobFilters from '@/components/candidate/JobFilters.vue';
 import JobSearchBar from '@/components/candidate/JobSearchBar.vue';
 import Pagination from '@/components/candidate/Pagination.vue';
-import { Loader2 } from 'lucide-vue-next';
 
 const jobsStore = useJobsStore();
 
@@ -14,13 +14,33 @@ onMounted(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const initialFilters: Record<string, any> = {};
 
-    if (urlParams.has('keyword')) initialFilters.keyword = urlParams.get('keyword');
-    if (urlParams.has('location')) initialFilters.location = urlParams.get('location');
-    if (urlParams.has('work_type')) initialFilters.work_type = urlParams.get('work_type');
-    if (urlParams.has('salary_min')) initialFilters.salary_min = urlParams.get('salary_min');
-    if (urlParams.has('salary_max')) initialFilters.salary_max = urlParams.get('salary_max');
-    if (urlParams.has('date_posted')) initialFilters.date_posted = urlParams.get('date_posted');
-    if (urlParams.has('page')) initialFilters.page = parseInt(urlParams.get('page') || '1', 10);
+    if (urlParams.has('keyword')) {
+initialFilters.keyword = urlParams.get('keyword');
+}
+
+    if (urlParams.has('location')) {
+initialFilters.location = urlParams.get('location');
+}
+
+    if (urlParams.has('work_type')) {
+initialFilters.work_type = urlParams.get('work_type');
+}
+
+    if (urlParams.has('salary_min')) {
+initialFilters.salary_min = urlParams.get('salary_min');
+}
+
+    if (urlParams.has('salary_max')) {
+initialFilters.salary_max = urlParams.get('salary_max');
+}
+
+    if (urlParams.has('date_posted')) {
+initialFilters.date_posted = urlParams.get('date_posted');
+}
+
+    if (urlParams.has('page')) {
+initialFilters.page = parseInt(urlParams.get('page') || '1', 10);
+}
 
     Object.assign(jobsStore.filters, initialFilters);
     jobsStore.fetchJobs();

@@ -31,9 +31,9 @@ class JobResource extends JsonResource
             'views_count' => $this->views_count,
             'applications_count' => $this->applications_count,
             'employer' => [
-                'id' => $this->employerProfile->id ?? null,
-                'company_name' => $this->employerProfile->company_name ?? null,
-                'logo' => $this->employerProfile->logo_url ?? null, // Assuming you have a logo_url accessor or similar
+                'id' => $this->employerProfile?->id,
+                'company_name' => $this->employerProfile?->company_name,
+                'logo' => $this->employerProfile?->company_logo,
             ],
             'categories' => $this->whenLoaded('categories', function () {
                 return $this->categories->map(function ($category) {

@@ -12,8 +12,13 @@ const emit = defineEmits<{
 const localFilters = ref({ ...props.filters });
 
 // Make sure localFilters array fields are initialized correctly
-if (!Array.isArray(localFilters.value.category)) localFilters.value.category = [];
-if (!Array.isArray(localFilters.value.technologies)) localFilters.value.technologies = [];
+if (!Array.isArray(localFilters.value.category)) {
+localFilters.value.category = [];
+}
+
+if (!Array.isArray(localFilters.value.technologies)) {
+localFilters.value.technologies = [];
+}
 
 function applyFilters() {
     emit('update', localFilters.value);
@@ -36,8 +41,14 @@ function clearFilters() {
 
 watch(() => props.filters, (newFilters) => {
     localFilters.value = { ...newFilters };
-    if (!Array.isArray(localFilters.value.category)) localFilters.value.category = [];
-    if (!Array.isArray(localFilters.value.technologies)) localFilters.value.technologies = [];
+
+    if (!Array.isArray(localFilters.value.category)) {
+localFilters.value.category = [];
+}
+
+    if (!Array.isArray(localFilters.value.technologies)) {
+localFilters.value.technologies = [];
+}
 }, { deep: true });
 </script>
 

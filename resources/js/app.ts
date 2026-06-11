@@ -1,6 +1,7 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createApp, h, type DefineComponent } from 'vue';
+import { createApp, h  } from 'vue';
+import type {DefineComponent} from 'vue';
 import { createPinia } from 'pinia';
 import { initializeTheme } from '@/composables/useAppearance';
 import AppLayout from '@/layouts/AppLayout.vue';

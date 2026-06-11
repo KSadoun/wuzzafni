@@ -17,9 +17,13 @@ const { getInitials } = useInitials();
 
 // Compute the display name — handle first_name/last_name or name
 const displayName = computed(() => {
-    if (props.user?.name) return props.user.name as string;
+    if (props.user?.name) {
+return props.user.name as string;
+}
+
     const first = (props.user as any)?.first_name ?? '';
     const last = (props.user as any)?.last_name ?? '';
+
     return `${first} ${last}`.trim() || props.user?.email || '';
 });
 
