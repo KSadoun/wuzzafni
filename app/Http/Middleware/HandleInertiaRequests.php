@@ -49,6 +49,8 @@ class HandleInertiaRequests extends Middleware
                         } elseif ($user->role === 'admin') {
                             $user->load('adminProfile');
                         }
+                        // Add computed 'name' for components that expect it
+                        $user->name = trim($user->first_name . ' ' . $user->last_name);
                     }
                     return $user;
                 },
